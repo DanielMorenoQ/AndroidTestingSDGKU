@@ -40,6 +40,8 @@ jobs:
             '${{ steps.java21.outputs.path }}' \
             '${{ steps.java25.outputs.path }}' >> "$HOME/.gradle/gradle.properties"
       - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
       - name: Install compile SDK
         run: sdkmanager 'platforms;android-37' 'build-tools;37.0.0' 'platform-tools'
       - uses: gradle/actions/setup-gradle@v4
@@ -86,6 +88,8 @@ jobs:
             '${{ steps.java21.outputs.path }}' \
             '${{ steps.java25.outputs.path }}' >> "$HOME/.gradle/gradle.properties"
       - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
       - name: Install compile SDK
         run: sdkmanager 'platforms;android-37' 'build-tools;37.0.0' 'platform-tools'
       - uses: gradle/actions/setup-gradle@v4
