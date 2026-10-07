@@ -1,0 +1,36 @@
+name: Android Debug Delivery
+
+on:
+  workflow_run:
+    workflows: [Android Existing Tests]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  actions: read
+
+jobs:
+  deliver:
+    name: Deliver tested debug APK
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: classroom-delivery
+    steps:
+      - name: Download APK from the successful CI run
+        uses: actions/download-artifact@v4
+        with:
+          name: existing-jvm-results
+          path: incoming
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+      - name: Publish classroom download
+        uses: actions/upload-artifact@v4
+        with:
+          name: classroom-debug-apk-${{ github.event.workflow_run.head_sha }}
+          path: incoming/**/*.apk
+          if-no-files-found: error
+          retention-days: 14

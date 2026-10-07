@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         val loginButton = findViewById<MaterialButton>(R.id.loginButton)
 
         // For testing purposes, we can skip the login and go directly to the shop
-        goToShop()
+//        goToShop()
 
         loginButton.setOnClickListener {
             titleEmail.error = null
