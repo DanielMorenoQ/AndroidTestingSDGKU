@@ -18,6 +18,18 @@ class ShopAppTest {
     val composeRule = createAndroidComposeRule<ShopActivity>()
 
     @Test
+    fun shoppingCartShowsAllElements() {
+        composeRule.onNodeWithTag("shop_title").assertIsDisplayed()
+        composeRule.onNodeWithTag("cart_item_count", useUnmergedTree = true)
+            .assertTextEquals("Cart (0)")
+
+        composeRule.onNodeWithTag("go_to_cart_button").performClick()
+
+        composeRule.onNodeWithTag("cart_title").assertIsDisplayed()
+        composeRule.onNodeWithTag("empty_cart").assertIsDisplayed()
+    }
+
+    @Test
     fun shopStartsWithEmptyCart() {
         composeRule.onNodeWithTag("shop_title").assertIsDisplayed()
         composeRule.onNodeWithTag("cart_item_count", useUnmergedTree = true)
